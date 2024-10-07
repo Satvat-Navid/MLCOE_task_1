@@ -2,7 +2,10 @@ import sys
 import pygame
 from settings import Setting
 from machine import Machine
+from cup import Cup
 from resourses import Resources
+from buttons import Buttons
+from stats import Status
 
 
 class Shop:
@@ -15,13 +18,18 @@ class Shop:
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption("COFFEE SHOP")
         self.machine = Machine(self)
+        self.cup = Cup(self)
         self.reso = Resources(self)
+        self.buttons = Buttons(self)
+        self.state = Status()
 
     def run_machine(self):
         """Loop for runing machine"""
         while True:
             self._check_events()
             self.reso.check_veriable()
+            self.cup._check_cup()
+            self.buttons._check_BGcolor()
             self._update_screen()
             
 
@@ -33,17 +41,39 @@ class Shop:
                 self._keydown_event(event)
             elif event.type == pygame.KEYUP:
                 self._keyup_event(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.mouse = pygame.mouse.get_pos()
+                self.click(self.mouse)
+
+    def click(self, mouse):
+        if self.buttons.coin_rect.collidepoint(mouse):
+            self.state.coinIN = (-1)*(self.state.coinIN)
+
+        if self.buttons.milk_rect.collidepoint(mouse):
+            self.state.milkIN = (-1)*(self.state.milkIN)
+
+        if self.buttons.suger_rect.collidepoint(mouse):
+            self.state.sugerIN = (-1)*(self.state.sugerIN)
+        
 
     def _keydown_event(self, event):
-        
+
         pass
 
     def _keyup_event(self, event):
         pass
 
+    def cup_available(self):
+        pass
+
     def _update_screen(self):
         self.machine.draw_bg()
         self.reso.draw_resource()
+        self.buttons.draw_buttons()
+        if self.state.cup_added < 0:
+            self.screen.blit(self.buttons.cup_image, self.buttons.cup_rect)
+        if self.state.cup_added > 0:
+            self.cup.draw_cup()
         pygame.display.flip()
 
 if __name__ == "__main__":
