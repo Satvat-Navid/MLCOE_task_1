@@ -48,6 +48,13 @@ class Buttons:
             self.powerBG_color = (255, 0, 0)
             self.prep_power()
 
+        if self.shop.state.cup_added > 0:
+            self.cupBG_color = (0, 255, 0)
+            self.prep_cup()
+        if self.shop.state.cup_added < 0:
+            self.cupBG_color = (255, 0, 0)
+            self.prep_cup()
+
     def prep_coin(self):
         coin_str = "COIN"
         self.coin_image = self.font.render(coin_str, True, self.font_color, self.coinBG_color)

@@ -37,7 +37,7 @@ class Resources:
 
     def prep_profit(self):
         str1 = self.stats.profit
-        value_str = "Profit : {:,}".format(str1)
+        value_str = "Profit : {:,} Rs".format(str1)
         self.profit_image = self.font.render(value_str, True, self.text_color, self.profitBG_color)
         self.profit_rect = self.profit_image.get_rect()
         self.profit_rect.x = 10

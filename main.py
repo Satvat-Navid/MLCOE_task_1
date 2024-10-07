@@ -55,8 +55,15 @@ class Shop:
         if self.buttons.suger_rect.collidepoint(mouse):
             self.state.sugerIN = (-1)*(self.state.sugerIN)
         
-        if self.buttons.power_rect.collidepoint(mouse):
+        if self.buttons.power_rect.collidepoint(mouse) and self.state.cup_added > 0:
             self.state.coffeeIN = (-1)*(self.state.coffeeIN)
+            if self.state.coffeeIN == 1 and self.state.water > 0:
+                self.state.profit += 50
+                self.state.water -= 100
+                self.reso.prep_water()
+        
+        if self.buttons.cup_rect.collidepoint(mouse) and self.state.coinIN > 0:
+            self.state.cup_added = (-1)*(self.state.cup_added)
         
 
     def _keydown_event(self, event):
@@ -76,10 +83,11 @@ class Shop:
         pass
 
     def _update_screen(self):
+        self.screen.fill(self.settings.bg_color)
         self.machine.draw_bg()
         self.reso.draw_resource()
         self.buttons.draw_buttons()
-        if self.state.cup_added < 0:
+        if self.state.coinIN > 0:
             self.screen.blit(self.buttons.cup_image, self.buttons.cup_rect)
         if self.state.cup_added > 0:
             self.cup.draw_cup()
