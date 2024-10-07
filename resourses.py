@@ -7,7 +7,7 @@ class Resources:
         self.screen = shop.screen
         self.screen_rect = self.screen.get_rect()
         self.shop = shop
-        self.stats = Status()
+        self.stats = shop.state
         self.font = pygame.font.SysFont(None, 36)
         self.text_color = (0, 0, 255)
         self.profitBG_color = (255, 0, 0)
@@ -30,6 +30,9 @@ class Resources:
         else: 
             self.coffee_str = "NO Coffee"
             self.prep_coffee()
+            self.profitBG_color = (255, 0, 0)
+            self.waterBG_color = (0, 255, 0)
+            self.coffeeBG_color = (255, 0, 0)
 
 
     def prep_profit(self):
@@ -42,7 +45,7 @@ class Resources:
 
     def prep_water(self):
         str2 = self.stats.water
-        water_str = "Water : {:,}".format(str2)
+        water_str = "Water : {:,}ml    ".format(str2)
         self.water_image = self.font.render(water_str, True, self.text_color, self.waterBG_color)
         self.water_rect = self.water_image.get_rect()
         self.water_rect.x = 10

@@ -17,11 +17,11 @@ class Shop:
         self.screen = pygame.display.set_mode((self.settings.display_width, self.settings.display_height))
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption("COFFEE SHOP")
+        self.state = Status(self)
         self.machine = Machine(self)
         self.cup = Cup(self)
-        self.reso = Resources(self)
         self.buttons = Buttons(self)
-        self.state = Status()
+        self.reso = Resources(self)
 
     def run_machine(self):
         """Loop for runing machine"""
@@ -55,10 +55,19 @@ class Shop:
         if self.buttons.suger_rect.collidepoint(mouse):
             self.state.sugerIN = (-1)*(self.state.sugerIN)
         
+        if self.buttons.power_rect.collidepoint(mouse):
+            self.state.coffeeIN = (-1)*(self.state.coffeeIN)
+        
 
     def _keydown_event(self, event):
-
-        pass
+        if event.key == pygame.K_q:
+            sys.exit()
+        elif event.key == pygame.K_UP and self.state.water < 1000:
+            self.state.water += 100
+            self.reso.prep_water()
+        elif event.key == pygame.K_DOWN and self.state.water > 0:
+            self.state.water -= 100
+            self.reso.prep_water()
 
     def _keyup_event(self, event):
         pass

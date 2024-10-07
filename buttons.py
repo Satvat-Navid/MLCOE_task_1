@@ -10,11 +10,13 @@ class Buttons:
         self.coinBG_color = (255, 0, 0)
         self.milkBG_color = (255, 0, 0)
         self.sugerBG_color = (255, 0, 0)
+        self.powerBG_color = (255, 0, 0)
         self.cupBG_color = (255, 0, 0)
         self.font = pygame.font.SysFont(None, 48)
         self.prep_coin()
         self.prep_milk()
         self.prep_suger()
+        self.prep_power()
         self.prep_cup()
 
     def _check_BGcolor(self):
@@ -38,6 +40,13 @@ class Buttons:
         if self.shop.state.sugerIN < 0:
             self.sugerBG_color = (255, 0, 0)
             self.prep_suger()
+
+        if self.shop.state.coffeeIN > 0:
+            self.powerBG_color = (0, 255, 0)
+            self.prep_power()
+        if self.shop.state.coffeeIN < 0:
+            self.powerBG_color = (255, 0, 0)
+            self.prep_power()
 
     def prep_coin(self):
         coin_str = "COIN"
@@ -67,7 +76,16 @@ class Buttons:
         self.cup_rect.right = self.screen_rect.right - 10
         self.cup_rect.top = self.suger_rect.bottom + 10
         
+    def prep_power(self):
+        power_str = "POWER"
+        font = pygame.font.SysFont(None, 30)
+        self.power_image = font.render(power_str, True, self.font_color, self.powerBG_color)
+        self.power_rect = self.power_image.get_rect()
+        self.power_rect.left = self.shop.machine.rect.left + 47
+        self.power_rect.top = self.shop.machine.rect.top + 47
+
     def draw_buttons(self):
         self.screen.blit(self.coin_image, self.coin_rect)
         self.screen.blit(self.milk_image, self.milk_rect)
         self.screen.blit(self.suger_image, self.suger_rect)
+        self.screen.blit(self.power_image, self.power_rect)
