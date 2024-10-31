@@ -64,6 +64,7 @@ class Shop:
         
         if self.buttons.cup_rect.collidepoint(mouse) and self.state.coinIN > 0:
             self.state.cup_added = (-1)*(self.state.cup_added)
+            # self.state.coinIN = -1
         
 
     def _keydown_event(self, event):
